@@ -4,7 +4,7 @@ RUN apt-get update && apt-get install -y  apache2 && \
 COPY ./cert /opt/cert
 COPY ./apache2.conf /etc/apache2
 COPY ./webub22.04.com.conf /etc/apache2/sites-available
-COPY ./test_jenkins.html /opt/apache2/html
+COPY ./index.html /opt/apache2/html
 RUN chown -R www-data:www-data /opt/cert && \
     a2enmod ssl && \
     a2ensite webub22.04.com.conf && a2dissite 000-default.conf
