@@ -8,6 +8,12 @@ COPY ./index.html /opt/apache2/html
 RUN chown -R www-data:www-data /opt/cert && \
     a2enmod ssl && \
     a2ensite webub22.04.com.conf && a2dissite 000-default.conf
+ARG DOCKER_IMAGES_NAME
+ARG DOCKER_IMAGES_TAG
+ENV ENV_IMAGES_NAME $DOCKER_IMAGES_NAME
+ENV ENV_IMAGES_TAG $DOCKER_IMAGES_TAG
+WORKDIR /opt/apache2/html/
+RUN echo "This Image have name=$ENV_IMAGES_NAME and tag=$ENV_IMAGES_TAG"
 EXPOSE 80
 EXPOSE 443
 CMD ["/usr/sbin/apache2ctl", "-D","FOREGROUND"]
