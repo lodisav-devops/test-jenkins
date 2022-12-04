@@ -13,7 +13,7 @@ ARG DOCKER_IMAGES_TAG
 ENV ENV_IMAGES_NAME $DOCKER_IMAGES_NAME
 ENV ENV_IMAGES_TAG $DOCKER_IMAGES_TAG
 WORKDIR /opt/apache2/html/
-RUN echo "This Image have name=$ENV_IMAGES_NAME and tag=$ENV_IMAGES_TAG"
+RUN echo "This Image have name=$ENV_IMAGES_NAME and tag=$ENV_IMAGES_TAG" >> index.html
 EXPOSE 80
 EXPOSE 443
 CMD ["/usr/sbin/apache2ctl", "-D","FOREGROUND"]
