@@ -1,0 +1,33 @@
+pipeline {
+    agent {
+        dockerfile {
+            filename 'Dockerfile.build'
+            dir 'image'
+            label 'my-defined-label'
+            additionalBuildArgs  '--build-arg version=1.0.2'
+            args '-v /home/jenkins/.kube:/home/jenkins/.kube/'
+        }
+    }
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10'))
+        disableConcurrentBuilds()
+        timestamps()
+        ansiColor('xterm')
+    }
+
+    environment {
+        KUBECONFIG = '/home/jenkins/.kube/config'
+    }
+
+    stages {
+        stage('Kubectl check') {
+            steps {
+                script {
+                    sh "sudo docker build -t ${ENV_NAME_DOCKER_IMAGES}:${ENV_TAG_DOCKER_IMAGES} --build-arg DOCKER_IMAGES_NAME=${ENV_NAME_DOCKER_IMAGES} --build-arg DOCKER_IMAGES_TAG=${ENV_TAG_DOCKER_IMAGES} --build-arg DOCKER_CONTAINER_REDIRECT=${ENV_REDIRECT_DOCKER_CONTAINER} docker/."
+                    sh "sudo docker images"
+                }
+            }
+        }   
+    }
+}
